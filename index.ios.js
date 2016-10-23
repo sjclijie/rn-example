@@ -1,134 +1,214 @@
-import React, { Component } from 'react';
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    Image,
-    View,
-    ListView
-} from 'react-native';
+import React, { Component } from "react";
+import { AppRegistry, View, Text, TextInput, Image, ScrollView, ListView } from "react-native";
 
-const REQUEST_URI = "https://raw.githubusercontent.com/facebook/react-native/master/docs/MoviesExample.json";
+/*
+class FixedDimensionsBasics extends Component {
 
-export default class AwesomeProject extends Component {
-
-    constructor( props ){
-
-        super( props );
-
-        this.state = {
-            dataSource: new ListView.DataSource({
-                rowHasChanged: (row1, row2) => row1 !== row2,
-            }),
-            loaded: false
-        };
-
-        this.fetchData = this.fetchData.bind( this );
-    }
-
-    componentDidMount(){
-        this.fetchData();
-    }
-
-    fetchData(){
-
-        fetch( REQUEST_URI ).then( response => response.json() ).then( responseData => {
-            this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(responseData.movies),
-                loaded: true
-            });
-
-        }).done();
-    }
-
-    render() {
-
-        if ( !this.state.loaded ){
-            return this.renderLoadingView();
-        }
-
+    render(){
         return (
-            <ListView
-                dataSource={this.state.dataSource}
-                renderRow={this.renderMovie}
-                style={styles.listView}
-            />
-        );
+            <View style={{
+                flex: 1,
+                flexDirection: 'column',
+                //justifyContent: 'space-around',
+                justifyContent: 'space-between',
+                //justifyContent: 'flex-start',
+                //justifyContent: 'center',
+                //justifyContent: 'flex-end'
 
-        /*
-        let movie = this.state.movies[0];
+                //alignItems: 'center',
+                //alignItems: 'flex-start',
+                //alignItems: 'flex-end',
+                alignItems: 'stretch' //子元素在次轴上不能有固定尺寸
 
-        return this.renderMovie( movie );
-        */
-    }
-
-    renderLoadingView(){
-
-        return (
-            <View style={styles.container}>
-                <Text>
-                     正在加载电影数据...
-                </Text>
-            </View>
-        )
-    }
-
-    renderMovie( movie ){
-
-        console.log( movie.posters.thumbnail );
-
-        return (
-            <View style={styles.container}>
-                <Image
-                    source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
-                    //source={{uri: movie.posters.thumbnail }}
-                    //source={{uri: "http://resizing.flixster.com/DeLpPTAwX3O2LszOpeaMHjbzuAw=/53x77/dkpu1ddg7pbsk.cloudfront.net/movie/11/16/47/11164719_ori.jpg"}}
-                    style={styles.thumbnail}
-                />
-                <View style={styles.rightContainer}>
-                    <Text style={styles.title}>{movie.title}</Text>
-                    <Text style={styles.year}>{movie.year}</Text>
-                </View>
+            }}>
+                <View style={{  height: 100, backgroundColor: "powderblue" }}/>
+                <View style={{  height: 100, backgroundColor: "skyblue" }}/>
+                <View style={{  height: 100, backgroundColor: "steelblue" }}/>
             </View>
         );
     }
 }
 
-const styles = StyleSheet.create( {
-    container: {
-        flex           : 1,
-        flexDirection  : "row",
-        justifyContent : 'center',
-        alignItems     : 'center',
-        backgroundColor: '#F5FCFF'
-    },
+AppRegistry.registerComponent("AwesomeProject", () => FixedDimensionsBasics );
+*/
 
+// TextInput
+/*
+class PizzaTranslator extends Component {
 
-    rightContainer: {
-        flex: 1
-    },
+    constructor( props ){
+        super( props );
+        this.state = { text: '' };
+     }
 
-    thumbnail: {
-        width : 53,
-        height: 81
-    },
+    render(){
+        return (
+            <View style={{ padding: 50}}>
 
-    title: {
-        fontSize: 20,
-        marginBottom: 8,
-        textAlign: 'center'
-    },
+                <TextInput
+                    style={{ height: 40 }}
+                    placeholder="Type here to translate!"
+                    onChangeText={ text => this.setState( {text} ) }
+                />
 
-    year: {
-        textAlign: 'center'
-    },
+                <Text style={{ padding: 10, fontSize: 42 }}>
+                    { this.state.text.split(" ").map( world => world && '🍕').join( ' ' ) }
+                </Text>
 
-    listView: {
-        paddingTop: 20,
-        backgroundColor: '#f5fcff'
+            </View>
+        );
     }
-} );
+}
 
-AppRegistry.registerComponent( 'AwesomeProject', () => AwesomeProject );
+AppRegistry.registerComponent( "AwesomeProject", () => PizzaTranslator );
+*/
 
-//http://reactnative.cn/docs/0.31/sample-application-movies.html
+//ScrollView
+/*
+class IScrolledDown extends Component {
+
+    render(){
+        return (
+            <ScrollView>
+                <Text style={{ fontSize: 58 }} > Scroll me plz </Text>
+                <Image
+                    source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                    style={{ width: 100, height: 100 }}
+                />
+                <Image
+                    source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                    style={{ width: 100, height: 100 }}
+                />
+                <Image
+                    source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                    style={{ width: 100, height: 100 }}
+                />
+                <Image
+                    source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                    style={{ width: 100, height: 100 }}
+                />
+                <Image
+                    source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                    style={{ width: 100, height: 100 }}
+                />
+                <Image
+                    source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                    style={{ width: 100, height: 100 }}
+                />
+
+                <Text style={{ fontSize: 58 }} > If you like </Text>
+                <Image
+                    source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                    style={{ width: 100, height: 100 }}
+                />
+                <Image
+                    source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                    style={{ width: 100, height: 100 }}
+                />
+                <Image
+                    source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                    style={{ width: 100, height: 100 }}
+                />
+                <Image
+                    source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                    style={{ width: 100, height: 100 }}
+                />
+                <Image
+                    source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                    style={{ width: 100, height: 100 }}
+                />
+                <Image
+                    source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                    style={{ width: 100, height: 100 }}
+                />
+
+                <Text style={{ fontSize: 58 }} > Scrolling down </Text>
+                    <Image
+                        source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                        style={{ width: 100, height: 100 }}
+                    />
+                    <Image
+                        source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                        style={{ width: 100, height: 100 }}
+                    />
+                    <Image
+                        source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                        style={{ width: 100, height: 100 }}
+                    />
+                    <Image
+                        source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                        style={{ width: 100, height: 100 }}
+                    />
+                    <Image
+                        source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                        style={{ width: 100, height: 100 }}
+                    />
+                    <Image
+                        source={{uri: "https://static.suiyueyule.com/13609529268-01.jpg"}}
+                        style={{ width: 100, height: 100 }}
+                    />
+
+            </ScrollView>
+        );
+    }
+}
+
+AppRegistry.registerComponent( "AwesomeProject", () => IScrolledDown ) ;
+*/
+
+// ListView
+
+class ListViewBasics extends Component {
+
+    constructor( props ){
+        super( props );
+        const ds = new ListView.DataSource( { rowHasChanged: ( r1, r2) => r1 !== r2 } );
+        this.state = {
+            dataSource: ds.cloneWithRows( [
+                'John',
+                'Joel',
+                'James',
+                'Jimmy',
+                'Jackson',
+                'Jill',
+                'Devin'
+            ] )
+        };
+
+        let data = this.getMoviesFromServer();
+
+        console.log( '##########################' );
+        console.log( data );
+        console.log( '##########################' );
+    }
+
+    async getMoviesFromServer(){
+
+        try {
+
+            let response = await fetch('https://api.suiyueyule.com/1.0.0/feed/navigation');
+
+            return JSON.parse( response._bodyInit );
+
+        } catch ( e ) {
+
+            console.log( e );
+        }
+    }
+
+    render() {
+        return (
+            <View style={{padding: 22}}>
+                <ListView
+                    style={{ flex: 1 }}
+                    dataSource={this.state.dataSource}
+                    renderRow={ rowData => <Text style={{ fontSize: 40, alignItems: 'center', justifyContent: 'center' }}>{rowData}</Text> }
+                />
+            </View>
+        );
+    }
+}
+
+AppRegistry.registerComponent( 'AwesomeProject', () => ListViewBasics  );
+
+
