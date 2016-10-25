@@ -6,7 +6,6 @@ import IndexView from "../Views/IndexView";
 const styles = {
     container: {
         flex: 1,
-        paddingTop: 20,
         borderWidth: 1,
         borderColor: 'red'
     }

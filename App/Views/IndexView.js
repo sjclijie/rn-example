@@ -8,7 +8,7 @@ const styles = {
     container: {
         flex: 1,
         borderWidth: 2,
-        borderColor: 'blue'
+        borderColor: 'blue',
     }
 };
 

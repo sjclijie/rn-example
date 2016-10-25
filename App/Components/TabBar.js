@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
 
-import IconFontConf from '../Utils/IconFontConf';
-
 import TabNavigator from 'react-native-tab-navigator';
 
-
 const styles = {
-
     tarBarStyle: {
     },
 
@@ -38,7 +34,7 @@ export default class TabBar extends Component {
     _renderTabItemIcon( tag ){
         return (
             <Image
-                source={{uri: 'https://static.suiyueyule.com/1477342113_icon-6-mail-envelope-closed.png'}}
+                source={{uri: 'https://static.suiyueyule.com/music.png'}}
                 style={{width: 24, height: 24}}
             />
         )
