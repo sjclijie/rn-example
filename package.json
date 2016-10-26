@@ -3,17 +3,20 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "ios": "react-native run-ios",
+    "ios": "react-native log-ios",
+    "log": "react-native run-log",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
   },
   "dependencies": {
+    "moment": "^2.15.2",
     "react": "15.3.2",
     "react-native": "0.35.0",
     "react-native-gifted-listview": "0.0.15",
     "react-native-navbar": "^1.5.4",
     "react-native-sortable-listview": "^0.1.1",
-    "react-native-tab-navigator": "^0.3.3"
+    "react-native-tab-navigator": "^0.3.3",
+    "uuid": "^2.0.3"
   },
   "jest": {
     "preset": "jest-react-native"
