@@ -6,7 +6,7 @@ import TabNavigator from 'react-native-tab-navigator';
 import HomeView from '../Views/HomeView';
 import CheckView from '../Views/CheckView';
 import AuthView from '../Views/AuthView';
-import AppyCashView from '../Views/AppyCashView';
+import ApplyCashView from '../Views/ApplyCashView';
 
 const styles = {
     tarBarStyle: {},
@@ -86,7 +86,7 @@ export default class TabBar extends Component {
                 {this._renderTabItem( "works", <HomeView navigator={this.props.navigator}/> )}
                 {this._renderTabItem( "check", <CheckView navigator={this.props.navigator}/> )}
                 {this._renderTabItem( "authenticate", <AuthView navigator={this.props.navigator}/> )}
-                {this._renderTabItem( "withdrawCash", <AppyCashView navigator={this.props.navigator}/> )}
+                {this._renderTabItem( "withdrawCash", <ApplyCashView navigator={this.props.navigator}/> )}
             </TabNavigator>
         );
     }

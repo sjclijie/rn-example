@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {Navigator, View, Text} from 'react-native';
 
 import IndexView from "../Views/IndexView";
+import WorksDetailView from '../Views/WorksDetailView';
 
 const styles = {
     container: {
-        flex: 1,
-        borderWidth: 1,
-        borderColor: 'red'
+        flex: 1
     }
 };
 
@@ -17,7 +16,7 @@ export default class NavigatorComp extends Component {
         return (
             <View style={ styles.container }>
                 <Navigator
-                    initialRoute={{ name: 'indexView', index: 0, id: 'index' }}
+                    initialRoute={{name: 'indexView', index: 0, id: 'index'}}
                     configureScene={this._configureScene}
                     renderScene={this._renderScene}
                     style={ styles.container }
@@ -31,6 +30,7 @@ export default class NavigatorComp extends Component {
             case 'index':
                 return Navigator.SceneConfigs.FloatFromLeft;
             default:
+                return Navigator.SceneConfigs.FloatFromRight;
                 break;
         }
     }
@@ -39,7 +39,11 @@ export default class NavigatorComp extends Component {
         switch (route.id) {
             case 'index':
                 return (
-                    <IndexView navitagor={navigator} route={route}></IndexView>
+                    <IndexView navigator={navigator} route={route}></IndexView>
+                );
+            case 'works_detail':
+                return (
+                    <WorksDetailView navigator={navigator} route={route}></WorksDetailView>
                 );
             default:
                 break;

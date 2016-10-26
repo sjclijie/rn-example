@@ -4,16 +4,27 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import NavigationBar from 'react-native-navbar';
 
 const styles = {
-    navBar: {
+    navBar  : {
         borderBottomWidth: 1,
+        borderWidth: 1,
         borderColor      : '#e1e1e1',
-        height: 45
+        height           : 45,
+    },
+    navTitle: {
+        alignItems    : 'center',
+        justifyContent: 'center',
+        fontSize: 18,
+        marginBottom: 4
     },
     button: {
         flex          : 1,
-        width         : 50,
+        width         : 65,
         alignItems    : 'center',
         justifyContent: 'center'
+    },
+    text  : {
+        fontSize: 16,
+        color   : '#333'
     }
 };
 
@@ -25,43 +36,56 @@ export default class NavBar extends Component {
     }
 
     _rightButton() {
-
-        return (
-            <TouchableOpacity
-                onPress={this.handler}
-                style={styles.button}
-            >
-                <Text>Right</Text>
-            </TouchableOpacity>
-        );
+        switch (this.props.route.id) {
+            case 'index':
+                return this._renderButton( 'Right', () => {
+                    alert( 'right' )
+                } );
+            case 'works_detail':
+                break;
+            default:
+                break;
+        }
     }
 
     _leftButton() {
+        switch (this.props.route.id) {
+            case 'index':
+                return this._renderButton( "Left", () => {
+                    alert( "left" )
+                } );
+            case 'works_detail':
+                return this._renderButton();
+            default:
+                break;
+        }
+    }
 
+    _renderButton( text, handler ) {
         return (
             <TouchableOpacity
-                onPress={this.handler}
+                onPress={handler}
                 style={styles.button}
             >
-                <Text>left</Text>
+                <Text style={styles.text}>{text}</Text>
             </TouchableOpacity>
         );
     }
 
-    handler() {
-        alert( "hello 碎乐." );
+    _title() {
+        return (
+            <Text style={styles.navTitle}>{ this.props.route.title ? this.props.route.title : '碎乐' }</Text>
+        );
     }
 
     render() {
         return (
-            <View style={{height: 65, borderWidth: 1, borderColor: 'orange', backgroundColor: '#ccc'}}>
-                <NavigationBar
-                    title={{title: '碎乐'}}
-                    rightButton={ this._rightButton() }
-                    leftButton={ this._leftButton() }
-                    style={styles.navBar}
-                />
-            </View>
+            <NavigationBar
+                title={this._title()}
+                rightButton={ this._rightButton() }
+                leftButton={ this._leftButton() }
+                style={styles.navBar}
+            />
         );
     }
 }

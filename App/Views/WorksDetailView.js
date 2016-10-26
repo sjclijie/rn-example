@@ -12,11 +12,12 @@ const styles = StyleSheet.create({
     }
 });
 
-export default class IndexView extends Component {
+export default class WorksDetailView extends Component {
 
     constructor( props ) {
         super( props );
         this.state = {};
+        console.log( this.props.route.params );
     }
 
     render() {
