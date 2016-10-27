@@ -1,13 +1,15 @@
 import React, {Component} from "react";
-import {View, Text, TouchableHighlight, RefreshControl} from 'react-native';
+import {View, Text, TouchableHighlight, RefreshControl, Image} from 'react-native';
 import moment from 'moment';
 import uuid from 'uuid';
+import qs from 'qs';
 
 import GiftedListView from 'react-native-gifted-listview';
 
-import { FetchingView } from '../Utils/AnimationRotation';
-
+//import {FetchingView} from '../Utils/AnimationRotation';
 //import SortableListView from 'react-native-sortable-listview';
+
+import TimeAgo from '../Utils/TimeAgo';
 
 const NEW_FEED_API = 'https://api.suiyueyule.com/1.0.2/feed/new';
 
@@ -17,12 +19,9 @@ const styles = {
         backgroundColor: '#ccc'
     },
 
-    row: {
-        borderWidth   : 1,
-        borderColor   : 'red',
-        height        : 50,
-        alignItems    : 'center',
-        justifyContent: 'center'
+    container: {
+        justifyContent : 'center',
+        backgroundColor: '#fff'
     },
 
     paginationView: {
@@ -42,7 +41,53 @@ const styles = {
     actionLabel: {
         fontSize: 13,
         color   : '#666'
-    }
+    },
+
+    separator: {
+        flex  : 1,
+        height: 10
+    },
+
+    header: {
+        flex             : 1,
+        height           : 60,
+        flexDirection    : 'row',
+        alignItems       : 'center',
+        borderBottomWidth: 1,
+        borderColor      : '#ddd',
+
+        shadowColor  : "#ccc",
+        shadowOffset : {width: 0, height: 5},
+        shadowOpacity: 0.5,
+        shadowRadius: 3
+    },
+
+    avatar: {
+        width          : 45,
+        height         : 45,
+        backgroundColor: 'gray',
+        borderRadius   : 22.5,
+        marginRight    : 5,
+        marginLeft     : 10
+    },
+
+    nickname: {
+        fontSize    : 13,
+        marginBottom: 2,
+        color       : '#333'
+    },
+
+    create_time: {
+        fontSize : 10,
+        marginTop: 2,
+        color    : '#333'
+    },
+
+    works_info: {
+        borderWidth: 1,
+        borderColor: 'gray',
+    },
+
 };
 
 export default class HomeView extends Component {
@@ -57,33 +102,75 @@ export default class HomeView extends Component {
         };
     }
 
-    _renderRowView( rowData ) {
+    _renderRowView( row ) {
+
+        switch ( row["type"] ){
+
+            case "0":
+                break;
+            case "1":
+                break;
+            case "2":
+                break;
+            case "3":
+                break;
+
+
+        }
+
+        console.log( row );
+
         return (
             <TouchableHighlight
                 underlayColor='transparent'
-                onPress={ this._gotoDetails.bind( this, rowData ) }
+                onPress={ this._gotoDetails.bind( this, row ) }
             >
-                <View style={styles.row}>
-                    <Text>{rowData}</Text>
-                    <Text>{rowData}</Text>
+                <View style={styles.container}>
+                    <View style={ styles.header }>
+                        <Image source={{uri: row["user_info"]["avatar"]}} style={ styles.avatar }/>
+                        <View style={styles.user_info}>
+                            <Text style={ styles.nickname }>{row["user_info"]["nickname"]}</Text>
+                            <Text style={ styles.create_time }>{ TimeAgo( row["create_time"] * 1000 ) }</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.content}>
+                    </View>
+
                 </View>
             </TouchableHighlight>
         );
     }
 
-    async _onFetch( page = 1, callback, options ) {
+    async _onFetch( page = 1, callback ) {
 
-        let rows = ['row ' + ((page - 1) * 3 + 1), 'row ' + ((page - 1) * 3 + 2), 'row ' + ((page - 1) * 3 + 3)];
+        try {
 
-        console.log( rows );
+            let query_string = qs.stringify( {page: page} );
+            let feed_url     = `${NEW_FEED_API}?${query_string}`;
 
-        if (page == 100) {
-            callback( rows, {
-                allLoaded: true
-            } );
-        } else {
-            callback( rows );
+            console.log( feed_url );
+
+            let result = await fetch( feed_url );
+            let data   = await result.json();
+
+            let feed_data   = data.data;
+            let feed_status = data.status;
+            let feed_msg    = data.msg;
+
+            if (feed_data.length == 0) {
+                return callback( feed_data, {
+                    allLoaded: true
+                } );
+            }
+
+            return callback( feed_data );
+
+        } catch (e) {
+
+            console.log( e );
         }
+
     }
 
     _onPress( rowData ) {
@@ -112,17 +199,7 @@ export default class HomeView extends Component {
 
     _renderSeparatorView() {
         return (
-            <View key={ uuid.v4() }><Text> --------- </Text></View>
-        );
-
-    }
-
-    _renderRefreshControl( options ){
-
-        console.log( options );
-
-        return (
-            <RefreshControl title="下拉刷新..."/>
+            <View key={ uuid.v4() } style={ styles.separator }></View>
         );
     }
 
@@ -145,21 +222,18 @@ export default class HomeView extends Component {
                 rowView={this._renderRowView.bind( this ) }
                 onFetch={this._onFetch.bind( this ) }
                 emptyView={ this._renderEmptyView.bind( this ) }
-                renderSeparator={ this._renderSeparatorView.bind(this) }
+                renderSeparator={ this._renderSeparatorView.bind( this ) }
 
                 refreshable={true}
                 refreshableViewHeight={50}
                 refreshableDistance={40}
-                renderRefreshControl={ this._renderRefreshControl.bind(this) }
-
 
                 firstLoader={true} // display a loader for the first fetching
                 pagination={true} // enable infinite scrolling using touch to load more
-                refreshable={true} // enable pull-to-refresh for iOS and touch-to-refresh for Android
                 enableEmptySections={true}
                 withSections={false} // enable sections
 
-                rowHasChanged={ (r1,r2)=> r1 !== r2 }
+                rowHasChanged={ ( r1, r2 )=> r1 !== r2 }
             />
         );
     }
