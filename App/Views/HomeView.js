@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {View, Text, TouchableHighlight, RefreshControl, Image} from 'react-native';
+import {View, Text, TouchableHighlight, RefreshControl, Image, PixelRatio} from 'react-native';
 import moment from 'moment';
 import uuid from 'uuid';
 import qs from 'qs';
@@ -53,13 +53,19 @@ const styles = {
         height           : 60,
         flexDirection    : 'row',
         alignItems       : 'center',
-        borderBottomWidth: 1,
+        justifyContent   : 'space-between',
+        borderBottomWidth: 1 / PixelRatio.get(),
         borderColor      : '#ddd',
+    },
 
-        shadowColor  : "#ccc",
-        shadowOffset : {width: 0, height: 5},
-        shadowOpacity: 0.5,
-        shadowRadius: 3
+    left: {
+        flex         : 1,
+        flexDirection: 'row',
+        alignItems   : 'center',
+    },
+
+    right: {
+        marginRight: 20
     },
 
     avatar: {
@@ -77,10 +83,21 @@ const styles = {
         color       : '#333'
     },
 
+    time: {
+        flexDirection: 'row',
+        marginTop    : 2,
+    },
+
+    time_icon: {
+        width    : 10,
+        height   : 10,
+        marginTop: 1
+    },
+
     create_time: {
-        fontSize : 10,
-        marginTop: 2,
-        color    : '#333'
+        fontSize  : 10,
+        color     : '#333',
+        marginLeft: 2
     },
 
     works_info: {
@@ -88,6 +105,45 @@ const styles = {
         borderColor: 'gray',
     },
 
+    content: {
+        shadowColor  : "#ccc",
+        shadowOffset : {width: 0, height: 5},
+        shadowOpacity: 0.5,
+        shadowRadius : 3
+    }
+};
+
+const works = {
+
+    titleView: {
+        flexDirection: 'row',
+        marginTop    : 20,
+        marginLeft   : 10,
+        marginBottom : 20,
+        alignItems   : 'center'
+    },
+
+    title: {
+        fontSize: 13,
+        color   : '#333'
+    },
+
+    category: {
+        marginLeft     : 10,
+        backgroundColor: '#D3C4DE',
+        alignItems     : 'center',
+        justifyContent : 'center',
+        paddingLeft    : 4,
+        paddingRight   : 4,
+        paddingTop     : 2,
+        paddingBottom  : 2,
+        borderRadius   : 8
+    },
+
+    text: {
+        color   : '#fff',
+        fontSize: 10,
+    }
 };
 
 export default class HomeView extends Component {
@@ -102,23 +158,22 @@ export default class HomeView extends Component {
         };
     }
 
+    _formatImage( image_url ) {
+        if (image_url.startsWith( 'https://pic.suiyueyule.com/' ) || image_url.startsWith( 'https://static.suiyueyule.com/' )) {
+            return image_url.replace( /\-works\.\d+\.\d+\.gif$/gi, '' ).replace( /\-works\.\d+\.\d+\.webp$/gi, "" );
+        } else {
+            return image_url;
+        }
+    }
+
     _renderRowView( row ) {
 
-        switch ( row["type"] ){
-
-            case "0":
-                break;
-            case "1":
-                break;
-            case "2":
-                break;
-            case "3":
-                break;
-
-
-        }
-
-        console.log( row );
+        let typeMap = {
+            0: 'https://static.suiyueyule.com/%E9%9F%B3%E8%A7%86%E9%A2%91.png',
+            1: 'https://static.suiyueyule.com/%E8%AF%84.png',
+            2: 'https://static.suiyueyule.com/%E9%97%AE%E7%AD%94.png',
+            3: 'https://static.suiyueyule.com/%E9%97%AE%E7%AD%94.png'
+        };
 
         return (
             <TouchableHighlight
@@ -127,16 +182,36 @@ export default class HomeView extends Component {
             >
                 <View style={styles.container}>
                     <View style={ styles.header }>
-                        <Image source={{uri: row["user_info"]["avatar"]}} style={ styles.avatar }/>
-                        <View style={styles.user_info}>
-                            <Text style={ styles.nickname }>{row["user_info"]["nickname"]}</Text>
-                            <Text style={ styles.create_time }>{ TimeAgo( row["create_time"] * 1000 ) }</Text>
+
+                        <View style={ styles.left }>
+                            <Image source={{uri: this._formatImage( row["user_info"]["avatar"] )}}
+                                   style={ styles.avatar }
+                            />
+                            <View style={styles.user_info}>
+                                <Text style={ styles.nickname }>{row["user_info"]["nickname"]}</Text>
+                                <View style={ styles.time }>
+                                    <Image source={{uri: 'https://static.suiyueyule.com/rn/time.png'}}
+                                           style={ styles.time_icon }></Image>
+                                    <Text style={ styles.create_time }>{ TimeAgo( row["create_time"] * 1000 ) }</Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        <View style={ styles.right }>
+                            <View>
+                                <Image source={{ uri: typeMap[row["type"]] }} style={{width:22, height:22}}/>
+                            </View>
+                        </View>
+
+                    </View>
+                    <View style={styles.content}>
+                        <View style={ works.titleView }>
+                            <Text style={ works.title }>{ row["works"]["title"] }</Text>
+                            <View style={ works.category }>
+                                <Text style={ works.text }>{ row["works"]["category"] }</Text>
+                            </View>
                         </View>
                     </View>
-
-                    <View style={styles.content}>
-                    </View>
-
                 </View>
             </TouchableHighlight>
         );

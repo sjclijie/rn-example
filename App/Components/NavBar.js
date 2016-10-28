@@ -6,23 +6,23 @@ import NavigationBar from 'react-native-navbar';
 const styles = {
     navBar  : {
         borderBottomWidth: 1,
-        borderWidth: 1,
+        borderWidth      : 1,
         borderColor      : '#e1e1e1',
         height           : 45,
     },
     navTitle: {
         alignItems    : 'center',
         justifyContent: 'center',
-        fontSize: 18,
-        marginBottom: 4
+        fontSize      : 18,
+        marginBottom  : 4
     },
-    button: {
+    button  : {
         flex          : 1,
         width         : 65,
         alignItems    : 'center',
         justifyContent: 'center'
     },
-    text  : {
+    text    : {
         fontSize: 16,
         color   : '#333'
     }
@@ -55,7 +55,9 @@ export default class NavBar extends Component {
                     alert( "left" )
                 } );
             case 'works_detail':
-                return this._renderButton();
+                return this._renderButton( "返回", () => {
+                    this.props.navigator.pop();
+                } );
             default:
                 break;
         }
@@ -82,8 +84,8 @@ export default class NavBar extends Component {
         return (
             <NavigationBar
                 title={this._title()}
-                rightButton={ this._rightButton() }
-                leftButton={ this._leftButton() }
+                rightButton={ this._rightButton.call( this ) }
+                leftButton={ this._leftButton.call( this ) }
                 style={styles.navBar}
             />
         );
